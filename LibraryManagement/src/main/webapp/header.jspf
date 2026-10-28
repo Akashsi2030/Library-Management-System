@@ -1,0 +1,78 @@
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Library Management System</title>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="brand" href="${pageContext.request.contextPath}/">
+    <span>&#128218; Online Library</span>
+  </a>
+
+  <c:if test="${not empty sessionScope.user}">
+    <div class="nav-links">
+      <c:choose>
+        <c:when test="${sessionScope.user.admin}">
+          <a class="nav-link" href="${pageContext.request.contextPath}/admin_dashboard.jsp">Dashboard</a>
+          <a class="nav-link" href="${pageContext.request.contextPath}/books">Books Catalogue</a>
+          <a class="nav-link" href="${pageContext.request.contextPath}/manage_books.jsp">Add Book</a>
+          <a class="nav-link" href="${pageContext.request.contextPath}/issue">All Borrow Records</a>
+        </c:when>
+        <c:otherwise>
+          <a class="nav-link" href="${pageContext.request.contextPath}/user_dashboard.jsp">Dashboard</a>
+          <a class="nav-link" href="${pageContext.request.contextPath}/books">Browse Books</a>
+          <a class="nav-link" href="${pageContext.request.contextPath}/issue">My Issued Books</a>
+        </c:otherwise>
+      </c:choose>
+    </div>
+
+    <div class="user-section">
+      <span>Welcome, <strong>${sessionScope.user.name}</strong></span>
+      <span class="role-badge ${sessionScope.user.admin ? 'admin' : ''}">${sessionScope.user.role}</span>
+      <a class="btn-logout" href="${pageContext.request.contextPath}/logout">Logout</a>
+    </div>
+  </c:if>
+
+  <c:if test="${empty sessionScope.user}">
+    <div class="user-section">
+      <a class="nav-link" href="${pageContext.request.contextPath}/login">Login</a>
+      <a class="nav-link" href="${pageContext.request.contextPath}/register">Register</a>
+    </div>
+  </c:if>
+</nav>
+
+<div class="container">
+  <!-- Flash Success Notification -->
+  <c:if test="${not empty sessionScope.msg}">
+    <div class="alert alert-success">
+      <span>&#10004; ${sessionScope.msg}</span>
+    </div>
+    <c:remove var="msg" scope="session"/>
+  </c:if>
+
+  <!-- Flash Error Notification (Session) -->
+  <c:if test="${not empty sessionScope.error}">
+    <div class="alert alert-error">
+      <span>&#9888; ${sessionScope.error}</span>
+    </div>
+    <c:remove var="error" scope="session"/>
+  </c:if>
+
+  <!-- Request-scope Error Notification -->
+  <c:if test="${not empty requestScope.error}">
+    <div class="alert alert-error">
+      <span>&#9888; ${requestScope.error}</span>
+    </div>
+  </c:if>
+
+  <!-- Query param msg Notification -->
+  <c:if test="${not empty param.msg}">
+    <div class="alert alert-info">
+      <span>&#8505; ${param.msg}</span>
+    </div>
+  </c:if>

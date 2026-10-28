@@ -1,0 +1,8 @@
+</div> <!-- End .container -->
+
+<footer>
+  <p>&copy; <%= java.time.Year.now() %> Online Library Management System &bull; Java EE / Servlet 6.0 &bull; Apache Tomcat 11 &bull; MySQL</p>
+</footer>
+
+</body>
+</html>
